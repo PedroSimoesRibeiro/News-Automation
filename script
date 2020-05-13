@@ -1,0 +1,3799 @@
+#FAZER LOGIN TO BACK-OFFICE WEBSITE
+#pip 3 install selenium
+
+from selenium import webdriver
+
+#TIME HOLDUPS TO LOAD
+import time
+
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.support.ui import Select
+
+#KEYBOARD SHORTCUTS
+from selenium.webdriver.common.keys import Keys
+
+
+##################################
+#TO KEEP THE TEXT UP TO DATE
+
+import datetime
+
+now = datetime.datetime.now()
+year = '{:02d}'.format(now.year)
+month = '{:02d}'.format(now.month)
+day = '{:02d}'.format(now.day)
+hour = '{:02d}'.format(now.hour)
+year_month_day = '{}-{}-{}'.format(year, month, day)
+
+import locale
+#NO WINDOWS MUDA PARA locale.setlocale(locale.LC_ALL, 'por_por')
+locale.setlocale(locale.LC_TIME, "pt_PT")
+
+
+#TO GENERATE TOMORROWS DATE
+today = datetime.date.today()
+tomorrow = today + datetime.timedelta(days = 1)
+
+##################################
+
+
+
+#LOGIN CREDENTIALS
+username = "XXXXX"
+password = "XXXXX"
+url = "XXXXX"
+
+#CHROME WEBDRIVER TO MAKE IT RUN
+driver = webdriver.Chrome("/Applications/chromedriver")
+driver.get(url)
+
+#MAXIMIZING THE WINDOW
+driver.maximize_window()
+
+time.sleep(1)
+
+#ELEMENTS ON THE PAGE WE WANT TO ACCESS THROUGH SELENIUM
+driver.find_element_by_id("Email").send_keys(username)
+driver.find_element_by_id("Password").send_keys(password)
+driver.find_element_by_id("kt_login_signin_submit").click()
+
+########################################################################
+#THIS NEEDS TO REPEAT
+
+#NEW PAGE CREATION AND INDEX
+url2 = "XXXXX"
+url4 = "XXXXX"
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#WAITING FOR RENDERING
+time.sleep(1)
+
+#AUTHOR
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+
+
+#####
+#01:00
+#####
+
+
+
+#FORM FILLING
+titulo = ("Noticiário das 01h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not01")
+data = year_month_day + " 01:20"
+
+########################################################################
+
+driver.implicitly_wait(10)
+
+
+#FILLING TITLE AND LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#TOP OF THE PAGE
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+
+#SELECTING FROM DROWPDOWN MENU
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#FIRST DATE
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#WAITING PROCESS
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(5)
+
+#IF OPEN WRITES, IF NOT CLICK AND WRITE
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SECOND DATE
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECTING + AND THEN THE EMBEDED AUDIO FROM DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+WebDriverWait(driver, 5)
+
+#NEW WINDOW WITH DATE AND AUTHOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#SAVING 
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#AUTHOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#CLOSING AND SAVING
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#02:00
+#######################################################################
+
+WebDriverWait(driver, 5)
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 02h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not02")
+data = year_month_day + " 02:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#03:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 03h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not03")
+data = year_month_day + " 03:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#04:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 04h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not04")
+data = year_month_day + " 04:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#05:00
+#######################################################################
+
+WebDriverWait(driver, 5)
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 05h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not05")
+data = year_month_day + " 05:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#06:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 06h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not06")
+data = year_month_day + " 06:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#07:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 07h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not07")
+data = year_month_day + " 07:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#08:00
+#######################################################################
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 08h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not08")
+data = year_month_day + " 08:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#09:00
+#######################################################################
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 09h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not09")
+data = year_month_day + " 09:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+
+WebDriverWait(driver, 5)
+
+#######################################################################
+# TSF MANHA
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#ABRIR O FICHEIRO EXCEL
+#DARA ONLY TRUE PARA IMPORTAR APENAS O TEXTO E NAO A FORMULA
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = "Manhã TSF - " + day + " " + "de" + " " + now.strftime('%B') + " " + year
+titulo = "Manhã TSF - " + day + " " + "de" + " " + now.strftime('%B') + " " + year
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\manha" + day)
+data = year_month_day + " 10:00"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#10:00
+#######################################################################
+
+time.sleep(5)
+
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 10h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not10")
+data = year_month_day + " 10:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#11:00
+#######################################################################
+
+
+time.sleep(5)
+
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 11h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not11")
+data = year_month_day + " 11:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#12:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 12h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not12")
+data = year_month_day + " 12:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#13:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 13h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not13")
+data = year_month_day + " 13:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#14:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 14h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not14")
+data = year_month_day + " 14:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#15:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 15h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not15")
+data = year_month_day + " 15:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#16:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 16h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not16")
+data = year_month_day + " 16:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+WebDriverWait(driver, 5)
+
+
+#######################################################################
+#17:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 17h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not17")
+data = year_month_day + " 17:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#18:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 18h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not18")
+data = year_month_day + " 18:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#19:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 19h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not19")
+data = year_month_day + " 19:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+WebDriverWait(driver, 5)
+
+
+#######################################################################
+#20:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 20h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not20")
+data = year_month_day + " 20:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#21:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 21h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not21")
+data = year_month_day + " 21:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#22:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 22h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not22")
+data = year_month_day + " 22:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#23:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 23h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not23")
+data = year_month_day + " 23:20"
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#24:00
+#######################################################################
+
+
+driver.get(url4)
+
+time.sleep(5)
+
+driver.get(url2)
+
+#ESPERAR PARA A PÁGINA FAZER RENDERING TOTAL
+time.sleep(1)
+
+#PARA ASSINATURA
+nome = "Pedro Simões Ribeiro"
+
+#######################################################################
+
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = ("Noticiário das 00h00")
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\not24")
+data = (str(tomorrow) + " 01:20")
+
+########################################################################
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+#######################################################################
+#REVISTA IMPRENSA GENÉRICA
+
+url3 = "XXXXX"
+
+#######################################################################
+
+time.sleep(1)
+
+driver.get(url3)
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = "Revista de Impensa - " + day + " " + "de" + " " + now.strftime('%B') + " " + year
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\revistaimprensa" + day)
+data = year_month_day + " 07:50"
+
+########################################################################
+
+time.sleep(1)
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(2)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+
+#######################################################################
+# MANHA TSF NA PASTA MANHA TSF
+
+url4 = "XXXXX"
+
+#######################################################################
+
+time.sleep(1)
+
+driver.get(url4)
+
+#PREENCHIMENTO NOTICIÁRIOS
+titulo = "Manhã TSF - " + day + " " + "de" + " " + now.strftime('%B') + " " + year
+link = (r"TSF\audio""\\" + year + "\\" + month + r"\noticias""\\" + day + r"\manha" + day)
+data = year_month_day + " 10:00"
+
+########################################################################
+
+time.sleep(1)
+
+#PREENCHER TITULO E LINK
+driver.find_element_by_xpath('//*[@id="H1"]').send_keys(titulo)
+driver.find_element_by_xpath('//*[@id="Link"]').send_keys(link)
+
+time.sleep(1)
+
+#IR PARA O TOPO DA PÁGINA
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#SELECIONAR PUBLICAÇÃO DO MENU DROPDOWN
+s1 = Select(driver.find_element_by_id("State"))
+s1.select_by_value("2")
+
+time.sleep(1)
+
+
+#PRIMEIRO CAMPO DATA
+driver.find_element_by_id("Date").clear()
+driver.find_element_by_id("Date").send_keys(data)
+
+#TEMPO DE ESPERA ENTRE CADA ENTER PARA ASSUMIR A NOVA DATA
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("Date").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+try:
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+except Exception:
+    WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Publication > div.kt-portlet__body > div:nth-child(2) > div > div > div > button:nth-child(2)"""))).click()
+    driver.find_element_by_id("DateFrom").clear()
+    driver.find_element_by_id("DateFrom").send_keys(data)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+    time.sleep(1)
+    driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+#SEGUNDO CAMPO DATA
+driver.find_element_by_id("DateFrom").clear()
+driver.find_element_by_id("DateFrom").send_keys(data)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+driver.find_element_by_id("DateFrom").send_keys(Keys.RETURN)
+
+time.sleep(1)
+
+#SELECIONAR O + E DEPOIS O EMBEDED AUDIO DO DROPDOW
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline > a"""))).click()
+
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Videos > div.kt-portlet__head > div.kt-portlet__head-toolbar > div.dropdown.dropdown-inline.show > div > ul > li:nth-child(4) > a"""))).click()
+
+time.sleep(1)
+
+#PREENCHER A NOVA JANELA COM O TÍTULO E CÓDIGO
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(1) > div > input").send_keys(titulo)
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__body > div:nth-child(3) > div > input").send_keys(link)
+
+time.sleep(1)
+
+#GUARDAR DADOS INSERIDOS NO PASSO ANTERIOR
+driver.find_element_by_css_selector("#embeds-widget > div > div > div > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a.btn.btn-success.btn-sm").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.END)
+
+time.sleep(1)
+
+#PREENCHER AUTOR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, """#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__body > div > div.col-lg-3.col-md-3.col-sm-3 > div.kt-portlet.kt-portlet--head-sm.ngx-bg-grid.Author > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(1)"""))).click()
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[1]/div[2]/div/label/input").send_keys(nome)
+
+time.sleep(1)
+
+driver.find_element_by_xpath("/html/body/div[13]/div/div/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]").click()
+
+time.sleep(1)
+
+driver.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.HOME)
+
+time.sleep(1)
+
+#FECHAR E GRAVAR
+WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#kt_content > div.kt-container.kt-container--fluid.kt-grid__item.kt-grid__item--fluid > div.row > div > div.kt-portlet__head > div.kt-portlet__head-toolbar > div > a:nth-child(3)"))).click()
+
+time.sleep(2)
+
+driver.quit()
+
+###########
