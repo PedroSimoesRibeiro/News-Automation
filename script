@@ -1,4 +1,4 @@
-#FAZER LOGIN TO BACK-OFFICE WEBSITE
+#LOGIN TO BACK-OFFICE WEBSITE
 #pip 3 install selenium
 
 from selenium import webdriver
